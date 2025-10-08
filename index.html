@@ -63,20 +63,62 @@
             font-size: 1.1rem;
         }
 
-        .brand-logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-blue);
-            text-decoration: none;
-            border: 2px solid var(--primary-blue);
-            padding: 10px 20px;
-            border-radius: 25px;
-            transition: all 0.3s ease;
+        .qr-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.25);
+            text-align: center;
+            min-width: 280px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .brand-logo:hover {
-            background: var(--primary-blue);
-            color: var(--white);
+        .qr-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            pointer-events: none;
+        }
+
+        .qr-section > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .support-message {
+            color: white;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .qr-code-container {
+            background: white;
+            padding: 0.75rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .qr-code {
+            width: 120px;
+            height: 120px;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .contact-info {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.85rem;
+            line-height: 1.4;
         }
 
         /* Tabs */
@@ -263,6 +305,13 @@
                 font-size: 2rem;
             }
 
+            .qr-section {
+                min-width: auto;
+                width: 100%;
+                max-width: 320px;
+                padding: 1.25rem;
+            }
+
             .tab-buttons {
                 flex-direction: column;
             }
@@ -291,24 +340,21 @@
                 <p>專業交易工具｜Trading Calculator</p>
 
                  <!-- Support Me QR Code Section-->
-                <div class="sidebar-support" style="text-align:center; margin: 2rem 1rem 1rem 1rem; padding:1.2rem; background:#fdf6e3; border-radius:16px; box-shadow:0 4px 10px -2px rgba(0,0,0,0.07);">
-                    <div style="margin-bottom:0.5rem;">
-                        <a href="https://buymeacoffee.com/moneykeepsrollingin" target="_blank">
+                <div class="qr-section">
+                    <div class="support-message">
+                        請我飲杯咖啡~☕
+                    </div>
+                        <div class="qr-code-container">
                             <img src="https://lh3.googleusercontent.com/d/1kSmbAT1AyUQcdZPhtRtreMyB_ZeXd9E3" 
                                  alt="Buy me a coffee QR code" 
-                                 style="width:140px;height:140px;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,0.10);background:#fff;">
-                        </a>
+                                 class="qr-code">
                         </div>
-                    <div style="font-size:1.05rem;color:#705c29;font-weight:600;margin-bottom:6px;">
-                        請我飲杯咖啡~☕ 
-                    </div>
-                    <div style="font-size:0.97rem;color:#b68918;font-style:italic;">
+                        <div class="contact-info">
                         掃呢個 QR Code✨  
                         <br>或者點擊<a href="https://buymeacoffee.com/moneykeepsrollingin" target="_blank">這裡</a>直接支持我。
-                     </div>
+                        </div>                        
+                </div>
                 </div> 
-            </div>
-        </div>
             </div>
         </header>
 
