@@ -374,6 +374,7 @@
         <div class="tabs">
             <div class="tab-buttons">
                 <button class="tab-button active" onclick="switchTab('risk-reward')">風險回報比計算器</button>
+                <button class="tab-button" onclick="switchTab('ipo-risk-reward')">IPO風險回報比計算器</button>
                 <button class="tab-button" onclick="switchTab('position-size')">持股比例計算器</button>
                 <button class="tab-button" onclick="switchTab('volatility')">波幅計算器</button>
             </div>
@@ -421,7 +422,45 @@
                     <p>顏色提示：Risk-Reward Ratio ≥ 1 顯示綠色，< 1 顯示紅色</p>
                 </div>
             </div>
-                       
+
+           <!-- IPO Risk-Reward Calculator -->
+
+            <div id="ipo-risk-reward" class="tab-content">
+              <div class="input-grid">
+                <div class="input-group">
+                  <label for="ipo-breakout-price">突破價</label>
+                  <input type="number" id="ipo-breakout-price" step="0.01" placeholder="請輸入突破價">
+                </div>
+                <div class="input-group">
+                  <label for="ipo-buyin-price">入場價</label>
+                  <input type="number" id="ipo-buyin-price" step="0.01" placeholder="請輸入入場價">
+                </div>
+              </div>
+            
+              <table class="results-table">
+                <thead>
+                  <tr>
+                    <th>TP %</th>
+                    <th>SL (8%)</th>
+                    <th>TP Price</th>
+                    <th>Risk-Reward Ratio</th>
+                  </tr>
+                </thead>
+                <tbody id="ipo-risk-reward-results">
+                  <tr><td>10%</td><td>-</td><td>-</td><td>-</td></tr>
+                  <tr><td>15%</td><td>-</td><td>-</td><td>-</td></tr>
+                </tbody>
+              </table>
+            
+              <div class="formula-box">
+                <h4>計算公式</h4>
+                <p>止蝕價 (SL) = 買入價 × 0.92</p>
+                <p>止賺價 (TP) = 買入價 × 1.10 或 買入價 × 1.15</p>
+                <p>Risk-Reward Ratio = (TP 價格 - 買入價) ÷ (買入價 - SL 價格)</p>
+                <p>顏色提示：Risk-Reward Ratio ≥ 1 顯示綠色，&lt; 1 顯示紅色</p>
+              </div>
+            </div>
+                                   
 
             <!-- Position Size Calculator -->
             <div id="position-size" class="tab-content">
@@ -536,6 +575,42 @@
             }
         }
 
+        //IPO Risk-Reward Calculator
+        function calculateIPORiskReward() {
+              const buyin = parseFloat(document.getElementById('ipo-buyin-price').value) || 0;
+              const breakout = parseFloat(document.getElementById('ipo-breakout-price').value) || 0;
+              const resultsBody = document.getElementById('ipo-risk-reward-results');
+            
+              if (buyin > 0 && breakout > 0) {
+                // SL is 8% below buy-in
+                const sl = buyin * 0.92;
+                const tp10 = buyin * 1.10;
+                const tp15 = buyin * 1.15;
+                const rr10 = (tp10 - buyin) / (buyin - sl);
+                const rr15 = (tp15 - buyin) / (buyin - sl);
+            
+                resultsBody.innerHTML = `
+                  <tr>
+                    <td>10%</td>
+                    <td>${sl.toFixed(2)}</td>
+                    <td>${tp10.toFixed(2)}</td>
+                    <td class="${rr10 >= 1 ? 'positive' : 'negative'}">${rr10.toFixed(2)}</td>
+                  </tr>
+                  <tr>
+                    <td>15%</td>
+                    <td>${sl.toFixed(2)}</td>
+                    <td>${tp15.toFixed(2)}</td>
+                    <td class="${rr15 >= 1 ? 'positive' : 'negative'}">${rr15.toFixed(2)}</td>
+                  </tr>
+                `;
+              } else {
+                resultsBody.innerHTML = `
+                  <tr><td>10%</td><td>-</td><td>-</td><td>-</td></tr>
+                  <tr><td>15%</td><td>-</td><td>-</td><td>-</td></tr>
+                `;
+              }
+            }
+
         // Position Size Calculator
         function calculatePositionSize() {
             const totalShares = parseInt(document.getElementById(`total-shares`).value) || 0;
@@ -591,6 +666,11 @@
             // Risk-Reward Calculator inputs
             [`entry-price`, `stop-loss`, `atr`].forEach(id => {
                 document.getElementById(id).addEventListener(`input`, calculateRiskReward);
+            });
+
+            // IPO Risk-Reward Calculator inputs
+            ['ipo-breakout-price', 'ipo-buyin-price'].forEach(id => {
+              document.getElementById(id).addEventListener('input', calculateIPORiskReward);
             });
             
             // Position Size Calculator input
