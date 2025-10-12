@@ -74,7 +74,7 @@
         }
         
         .qr-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--primary-blue);
             padding: 1.5rem;
             border-radius: 16px;
             box-shadow: 0 8px 25px rgba(102, 126, 234, 0.25);
@@ -374,6 +374,7 @@
         <div class="tabs">
             <div class="tab-buttons">
                 <button class="tab-button active" onclick="switchTab('risk-reward')">風險回報比計算器</button>
+                <button class="tab-button active" onclick="switchTab('ipo-risk-reward')">IPO風險回報比計算器</button>
                 <button class="tab-button" onclick="switchTab('position-size')">持股比例計算器</button>
                 <button class="tab-button" onclick="switchTab('volatility')">波幅計算器</button>
             </div>
@@ -422,7 +423,51 @@
                 </div>
             </div>
             
-                
+            <!-- IPO Calculator -->
+            <div id="ipo-risk-reward" class="tab-content">
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label for="ipo-breakout-price">突破價</label>
+                        <input type="number" id="ipo-breakout-price" step="0.01" placeholder="請輸入突破價">
+                    </div>
+                    <div class="input-group">
+                        <label for="ipo-entry-price">入場價</label>
+                        <input type="number" id="ipo-entry-price" step="0.01" placeholder="請輸入入場價">
+                    </div>
+                </div>
+            
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>止蝕價 (SL)</th>
+                            <th>10% TP</th>
+                            <th>15% TP</th>
+                            <th>RRR (10% TP)</th>
+                            <th>RRR (15% TP)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ipo-results">
+                        <tr>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            
+                <div class="formula-box">
+                    <h4>計算公式</h4>
+                    <p>止蝕價 (SL) = 8% * 突破價</p>
+                    <p>10% TP = 10% * 突破價</p>
+                    <p>15% TP = 15% * 突破價</p>
+                    <p>RRR (10% TP) = (10% TP - 入場價) ÷ (入場價 - SL)</p>
+                    <p>RRR (15% TP) = (15% TP - 入場價) ÷ (入場價 - SL)</p>
+                    <p>顏色提示：RRR ≥ 1 顯示綠色，< 1 顯示紅色</p>
+                </div>
+            </div>
+            
 
             <!-- Position Size Calculator -->
             <div id="position-size" class="tab-content">
